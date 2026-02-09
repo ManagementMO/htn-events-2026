@@ -114,14 +114,14 @@ export function EventDetail({ eventId }: { eventId: number }) {
           {/* Large portrait */}
           <div className="relative aspect-square w-full flex-shrink-0 sm:aspect-[3/4] sm:w-56 md:w-64 lg:w-72">
             {brandVisual ? (
-              <div className="flex h-full w-full items-center justify-center bg-[#05060f]">
+              <div className="group/brand flex h-full w-full items-center justify-center bg-[#05060f]">
                 <div className={`flex h-40 w-40 items-center justify-center rounded-3xl border p-7 shadow-[0_20px_80px_rgba(0,0,0,0.45)] md:h-44 md:w-44 md:p-8 ${brandVisual.className}`}>
                   <Image
                     src={brandVisual.src}
                     alt={brandVisual.alt}
                     width={132}
                     height={132}
-                    className="h-full w-full object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]"
+                    className="h-full w-full object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)] grayscale opacity-60 transition-all duration-700 hover:grayscale-0 hover:opacity-100"
                   />
                 </div>
               </div>

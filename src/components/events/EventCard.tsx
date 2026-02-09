@@ -36,13 +36,13 @@ export function EventCard({ event, index = 0 }: { event: TEvent; index?: number 
           {brandVisual ? (
             <div className="flex h-full w-full items-center justify-center bg-[#0a0d1a]">
               <div className={`absolute inset-0 bg-gradient-to-b ${EVENT_TYPE_BG_COLORS[event.event_type]} opacity-0 transition-opacity duration-700 group-hover:opacity-100`} />
-              <div className={`relative flex h-28 w-28 items-center justify-center rounded-3xl border p-5 shadow-[0_16px_56px_rgba(0,0,0,0.45)] transition-transform duration-700 group-hover:scale-105 sm:h-32 sm:w-32 sm:p-6 ${brandVisual.className}`}>
+              <div className={`relative flex h-28 w-28 items-center justify-center rounded-3xl border p-5 shadow-[0_16px_56px_rgba(0,0,0,0.45)] transition-all duration-700 group-hover:scale-105 sm:h-32 sm:w-32 sm:p-6 ${brandVisual.className}`}>
                 <Image
                   src={brandVisual.src}
                   alt={brandVisual.alt}
                   width={96}
                   height={96}
-                  className="h-full w-full object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.45)]"
+                  className="h-full w-full object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.45)] grayscale opacity-60 transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-100"
                 />
               </div>
               <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#05060f] to-transparent" />
