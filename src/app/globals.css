@@ -229,10 +229,10 @@ body {
 }
 
 /* ═══════════════════════════════════════
-   HERO — Cinematic Title Sequence
+   HERO — Glassmorphic Title Sequence
    ═══════════════════════════════════════ */
 
-/* Animated gradient text for "EVENTS" */
+/* Animated gradient text for "NORTH" and "EVENTS" */
 @keyframes heroGradientShift {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
@@ -255,61 +255,75 @@ body {
   animation: heroGradientShift 9s ease infinite;
 }
 
-/* Brief glow flash on each letter as it lands */
-.hero-letter {
-  text-shadow: 0 0 0 transparent;
-  transition: text-shadow 0.3s ease;
+/* ── Glassmorphic container ── */
+.hero-glass {
+  background: rgba(10, 13, 26, 0.55);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  box-shadow:
+    0 0 80px rgba(124, 58, 237, 0.06),
+    0 0 160px rgba(34, 211, 238, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* Subtitle breathing letter-spacing */
-@keyframes heroLetterSpacingBreathe {
-  0%, 100% { letter-spacing: 0.3em; }
-  50%      { letter-spacing: 0.35em; }
+/* Shimmer edge that travels around the glass border */
+@keyframes heroGlassEdgeShimmer {
+  0%   { opacity: 0.3; background-position: -200% 0; }
+  50%  { opacity: 0.6; }
+  100% { opacity: 0.3; background-position: 200% 0; }
 }
 
-.hero-subtitle {
-  text-shadow: 0 0 20px rgba(147, 197, 253, 0.3);
-  animation: heroLetterSpacingBreathe 6s ease-in-out infinite;
+.hero-glass-edge {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(135deg,
+      transparent 25%,
+      rgba(139, 92, 246, 0.15) 40%,
+      rgba(34, 211, 238, 0.12) 60%,
+      transparent 75%
+    )
+    border-box;
+  background-size: 200% 100%;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  animation: heroGlassEdgeShimmer 6s ease-in-out infinite;
 }
 
-/* ── Streak bar ── */
-.hero-streak-bar {
+/* ── Glowing divider line ── */
+@keyframes heroDividerPulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 0.9; }
+}
+
+.hero-divider {
+  height: 1px;
+  width: 120px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(124, 58, 237, 0.2) 15%,
-    rgba(139, 92, 246, 0.4) 40%,
-    rgba(59, 130, 246, 0.4) 60%,
-    rgba(124, 58, 237, 0.15) 85%,
+    rgba(139, 92, 246, 0.4) 25%,
+    rgba(147, 197, 253, 0.6) 50%,
+    rgba(34, 211, 238, 0.4) 75%,
     transparent 100%
   );
-  filter: blur(0.5px);
-  animation: heroStreakPulse 3.5s ease-in-out infinite;
-  animation-delay: 2s;
+  filter: blur(0.3px);
+  animation: heroDividerPulse 3s ease-in-out infinite;
 }
 
-@keyframes heroStreakPulse {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 0.7; }
-}
-
-/* Flare that travels across the streak once */
-@keyframes heroStreakFlare {
-  0%   { left: -10%; opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { left: 110%; opacity: 0; }
-}
-
-.hero-streak-flare {
-  position: absolute;
-  top: -2px;
-  width: 40px;
-  height: 5px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(147, 197, 253, 0.9) 0%, transparent 70%);
-  filter: blur(3px);
-  animation: heroStreakFlare 0.8s ease-out forwards;
-  pointer-events: none;
+/* ── Year badge ── */
+.hero-year-badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: rgba(148, 163, 184, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 9999px;
+  padding: 4px 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 /* ── Background orbs ── */
@@ -495,18 +509,13 @@ html {
     background-position: 0% 50%;
   }
 
-  .hero-subtitle {
+  .hero-glass-edge {
     animation: none;
-    letter-spacing: 0.3em;
   }
 
-  .hero-streak-bar {
+  .hero-divider {
     animation: none;
-    opacity: 0.5;
-  }
-
-  .hero-streak-flare {
-    display: none;
+    opacity: 0.6;
   }
 
   .hero-particle {

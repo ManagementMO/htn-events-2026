@@ -9,9 +9,6 @@ import {
 } from "framer-motion";
 
 /* ─── constants ─── */
-const EVENTS_LETTERS = "EVENTS".split("");
-const DESCRIPTOR_WORDS = ["Workshops,", "tech", "talks,", "and", "activities"];
-
 const PARTICLE_COLORS = [
   "rgba(255,255,255,0.25)",
   "rgba(34,211,238,0.3)",
@@ -44,7 +41,6 @@ export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  /* Detect mobile for lighter animations */
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 640px)");
     setIsMobile(mq.matches);
@@ -55,24 +51,21 @@ export function Hero() {
 
   /* ─── parallax ─── */
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 300], [0, -50]);
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const heroY = useTransform(scrollY, [0, 400], [0, -60]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
-  /* ─── timing ─── */
-  const letterStagger = isMobile ? 0.03 : 0.06;
-  const eventsStartDelay = 0.35; /* after subtitle lands */
-  const eventsDuration = EVENTS_LETTERS.length * letterStagger;
-  const streakDelay = eventsStartDelay + eventsDuration + 0.15;
-  const descriptorDelay = streakDelay + 0.5;
+  const noMotion = !!prefersReduced;
   const particleCount = isMobile ? 5 : 10;
 
-  /* ─── reduced-motion fast paths ─── */
-  const noMotion = !!prefersReduced;
+  /* ─── animation timing ─── */
+  const lineDelay = 0.15;
+  const line1Delay = 0.2;
+  const line2Delay = line1Delay + lineDelay;
+  const line3Delay = line2Delay + lineDelay;
+  const dividerDelay = line3Delay + 0.3;
+  const descriptorDelay = dividerDelay + 0.3;
+  const slideIn = { type: "spring" as const, damping: 22, stiffness: 100 };
 
-  /* Spring config for letters */
-  const letterSpring = { type: "spring" as const, damping: 12, stiffness: 200 };
-
-  /* Memoize particles array to avoid re-renders */
   const particles = useMemo(
     () => PARTICLE_SEEDS.slice(0, particleCount),
     [particleCount],
@@ -85,19 +78,13 @@ export function Hero() {
       aria-label="Hero"
     >
       {/* ───────── Background orbs ───────── */}
-      <div
-        className="hero-orb hero-orb--purple pointer-events-none absolute"
-        aria-hidden="true"
-      />
-      <div
-        className="hero-orb hero-orb--cyan pointer-events-none absolute"
-        aria-hidden="true"
-      />
+      <div className="hero-orb hero-orb--purple pointer-events-none absolute" aria-hidden="true" />
+      <div className="hero-orb hero-orb--cyan pointer-events-none absolute" aria-hidden="true" />
 
       {/* ───────── Dot-grid texture ───────── */}
       <div className="hero-dot-grid pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      {/* ───────── Particles (CSS-only) ───────── */}
+      {/* ───────── Particles ───────── */}
       {!noMotion &&
         particles.map((p, i) => (
           <span
@@ -116,118 +103,103 @@ export function Hero() {
           />
         ))}
 
-      {/* ───────── Hero content (parallax wrapper) ───────── */}
+      {/* ───────── Hero content ───────── */}
       <motion.div
-        className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
-        style={
-          noMotion
-            ? undefined
-            : { y: heroY, opacity: heroOpacity }
-        }
+        className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12"
+        style={noMotion ? undefined : { y: heroY, opacity: heroOpacity }}
       >
         <div className="relative z-10 text-center">
-          {/* ── Subtitle: "HACK THE NORTH 2026" ── */}
-          <motion.p
-            className="hero-subtitle text-[10px] font-medium uppercase tracking-[0.3em] text-slate-500 sm:text-xs"
-            initial={noMotion ? false : { opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={
-              noMotion
-                ? { duration: 0 }
-                : { duration: 0.5, ease: "easeOut" }
-            }
-          >
-            Hack the North 2026
-          </motion.p>
-
-          {/* ── Main title: "EVENTS" — letter-by-letter ── */}
-          <h1
-            className="relative mt-4 inline-block text-5xl font-bold uppercase tracking-[0.12em] sm:text-6xl lg:text-7xl"
-            aria-label="Events"
-          >
-            {/* The letters — each gets its own gradient-text so background-clip works with filter animations */}
-            <span className="relative inline-block">
-              {EVENTS_LETTERS.map((letter, i) => (
-                <motion.span
-                  key={i}
-                  className="hero-gradient-text hero-letter relative inline-block"
-                  initial={
-                    noMotion
-                      ? false
-                      : { opacity: 0, y: 40, filter: "blur(8px)" }
-                  }
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    filter: "blur(0px)",
-                  }}
-                  transition={
-                    noMotion
-                      ? { duration: 0 }
-                      : {
-                          ...letterSpring,
-                          delay: eventsStartDelay + i * letterStagger,
-                        }
-                  }
+              {/* ── Line 1: "HACK THE NORTH" ── */}
+              <motion.div
+                className="overflow-hidden"
+                initial={noMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={noMotion ? { duration: 0 } : { duration: 0.01, delay: line1Delay }}
+              >
+                <motion.p
+                  className="text-lg font-bold uppercase tracking-[0.25em] text-slate-400 sm:text-xl lg:text-2xl"
+                  initial={noMotion ? false : { y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={noMotion ? { duration: 0 } : { ...slideIn, delay: line1Delay }}
                 >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
+                  Hack the North
+                </motion.p>
+              </motion.div>
 
-            {/* ── Streak through title ── */}
-            <motion.span
-              className="hero-streak-bar pointer-events-none absolute left-[-5%] right-[-5%] top-1/2 h-[1px]"
-              aria-hidden="true"
-              initial={
-                noMotion
-                  ? false
-                  : { scaleX: 0, transformOrigin: "left" }
-              }
-              animate={{ scaleX: 1 }}
-              transition={
-                noMotion
-                  ? { duration: 0 }
-                  : {
-                      duration: 0.8,
-                      delay: streakDelay,
-                      ease: [0.22, 1, 0.36, 1],
-                    }
-              }
-            >
-              {/* Flare that travels along the streak */}
-              {!noMotion && (
-                <span
-                  className="hero-streak-flare absolute inset-0"
-                  aria-hidden="true"
-                  style={{ animationDelay: `${streakDelay}s` }}
-                />
-              )}
-            </motion.span>
-          </h1>
+              {/* ── Line 2: "EVENTS" ── */}
+              <motion.div
+                className="overflow-hidden"
+                initial={noMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={noMotion ? { duration: 0 } : { duration: 0.01, delay: line2Delay }}
+              >
+                <motion.p
+                  className="hero-gradient-text -mt-1 text-4xl font-black uppercase leading-none tracking-[0.08em] sm:-mt-1 sm:text-5xl lg:text-6xl"
+                  initial={noMotion ? false : { y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={noMotion ? { duration: 0 } : { ...slideIn, delay: line2Delay }}
+                >
+                  Events
+                </motion.p>
+              </motion.div>
 
-          {/* ── Descriptor words ── */}
-          <p className="mx-auto mt-4 flex max-w-md flex-wrap items-center justify-center gap-x-1.5 text-sm">
-            {DESCRIPTOR_WORDS.map((word, i) => (
-              <motion.span
-                key={i}
-                className="text-slate-500"
-                initial={noMotion ? false : { opacity: 0, y: 10 }}
+              {/* ── Line 3: "PAGE" ── */}
+              <motion.div
+                className="overflow-hidden"
+                initial={noMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={noMotion ? { duration: 0 } : { duration: 0.01, delay: line3Delay }}
+              >
+                <motion.p
+                  className="hero-gradient-text -mt-0.5 text-4xl font-black uppercase leading-none tracking-[0.08em] sm:-mt-1 sm:text-5xl lg:text-6xl"
+                  initial={noMotion ? false : { y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={noMotion ? { duration: 0 } : { ...slideIn, delay: line3Delay }}
+                >
+                  Page
+                </motion.p>
+              </motion.div>
+
+              {/* ── Glowing divider ── */}
+              <motion.div
+                className="hero-divider mx-auto mt-4 sm:mt-5"
+                initial={noMotion ? false : { scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={
+                  noMotion
+                    ? { duration: 0 }
+                    : { duration: 0.8, delay: dividerDelay, ease: [0.22, 1, 0.36, 1] }
+                }
+                aria-hidden="true"
+              />
+
+              {/* ── Descriptor ── */}
+              <motion.p
+                className="mt-3 text-xs tracking-[0.15em] text-slate-500 sm:mt-3 sm:text-sm"
+                initial={noMotion ? false : { opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={
                   noMotion
                     ? { duration: 0 }
-                    : {
-                        duration: 0.4,
-                        delay: descriptorDelay + i * 0.15,
-                        ease: "easeOut",
-                      }
+                    : { duration: 0.6, delay: descriptorDelay, ease: "easeOut" }
                 }
               >
-                {word}
+                Workshops, tech talks, and activities
+              </motion.p>
+
+              {/* ── Year badge ── */}
+              <motion.span
+                className="hero-year-badge mt-3 inline-block sm:mt-4"
+                initial={noMotion ? false : { opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={
+                  noMotion
+                    ? { duration: 0 }
+                    : { duration: 0.5, delay: descriptorDelay + 0.2, ease: "easeOut" }
+                }
+              >
+                2026
               </motion.span>
-            ))}
-          </p>
         </div>
       </motion.div>
     </section>

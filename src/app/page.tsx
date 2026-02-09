@@ -10,7 +10,7 @@ export default function HomePage() {
       <Hero />
 
       {/* Main Content */}
-      <main id="main-content" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 space-y-10">
+      <main id="main-content" className="mx-auto max-w-7xl px-4 pt-4 pb-10 sm:px-6 lg:px-8 space-y-10">
         {/* Stats Dashboard */}
         <EventStats />
 
