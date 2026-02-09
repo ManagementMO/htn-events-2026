@@ -5,7 +5,7 @@ A cinematic, planning-friendly event browser built for the pace of a hackathon w
 
 Built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, **Tailwind CSS v4**, **TanStack Query v5**, and **Framer Motion**.
 
-> **Live site:** _[deployed URL here]_  
+> **Live site:** https://htn-events-2026.vercel.app/
 > **Demo login:** `hacker` / `htn2026`
 
 ---
