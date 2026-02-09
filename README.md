@@ -61,6 +61,7 @@ If you’re reviewing quickly, these are the “core quality signals” I focuse
 * **Robust edge-case handling** (nullable fields, missing speaker photos, private related events)
 * **Accessibility baked in** (skip link, semantics, focus states, reduced motion)
 * **Config-driven event types** (`eventTypeConfig.ts` keeps UI consistent and scalable)
+* **Config-driven brand fallbacks** (`brandVisuals.ts` centralizes sponsor logo matching + styling)
 
 ---
 
@@ -129,7 +130,7 @@ src/
 * **Add to Calendar:** client-side `.ics` generation per event
 * **YouTube embed:** detects YouTube URLs in `public_url` and renders inline player
 * **Event stats dashboard:** totals, type breakdown, total hours
-* **Speaker image fallbacks:** image → first-letter avatar → type icon (no broken UI)
+* **Speaker image fallbacks:** API image -> brand logo -> first-letter avatar -> type icon (no broken UI)
 * **Skip-to-content link:** keyboard and screen reader friendly
 
 ---
@@ -147,7 +148,7 @@ Before writing code, I did two things:
 
 From there, I built in intentional layers:
 
-* **`lib/`**: pure logic only (types, API calls, utilities, constants). No React. Easy to test and refactor.
+* **`lib/`**: pure logic only (types, API calls, utilities, constants, brand-visual rules). No React. Easy to test and refactor.
 * **`hooks/`**: data layer abstractions (thin TanStack Query wrappers so UI doesn’t care about caching strategy).
 * **`context/`**: cross-cutting state (auth with `useReducer`, avoiding prop drilling).
 * **`components/`**: presentation, organized by domain so everything is discoverable.

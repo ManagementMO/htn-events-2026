@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Voiceflow logo">
+  <title>Voiceflow</title>
+  <!-- Stylized speech-bubble with flow arrow representing Voiceflow's conversational AI platform -->
+  <rect x="8" y="10" width="48" height="34" rx="8" ry="8" fill="#1a56f4"/>
+  <polygon points="20,44 28,44 22,54" fill="#1a56f4"/>
+  <!-- Flow arrow inside the bubble -->
+  <path d="M18 27 L30 27 L30 22 L42 29 L30 36 L30 31 L18 31 Z" fill="#ffffff" opacity="0.95"/>
+</svg>

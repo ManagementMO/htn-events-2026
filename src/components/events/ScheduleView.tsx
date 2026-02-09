@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { groupEventsByDay, getEventDuration, formatDuration } from "@/lib/utils";
 import { EVENT_TYPE_LABELS } from "@/lib/constants";
 import { EVENT_TYPE_ICONS, EVENT_TYPE_COLORS } from "@/lib/eventTypeConfig";
+import { getEventBrandVisual } from "@/lib/brandVisuals";
 import type { TEvent, TEventType } from "@/lib/types";
 
 const TYPE_BORDER_COLORS: Record<TEventType, string> = {
@@ -47,6 +48,8 @@ export function ScheduleView({ events }: { events: TEvent[] }) {
               .map((event) => {
                 const Icon = EVENT_TYPE_ICONS[event.event_type];
                 const duration = getEventDuration(event.start_time, event.end_time);
+                // Reuse the same brand-fallback resolver as cards/details for consistent thumbnails.
+                const brandVisual = getEventBrandVisual(event);
                 const profilePic = event.speakers[0]?.profile_pic;
 
                 return (
@@ -69,16 +72,30 @@ export function ScheduleView({ events }: { events: TEvent[] }) {
                     </time>
 
                     {/* Speaker thumbnail */}
-                    {profilePic && (
+                    {(brandVisual || profilePic) && (
                       <div className="relative hidden w-16 flex-shrink-0 sm:block">
-                        <Image
-                          src={profilePic}
-                          alt={event.speakers[0]?.name ?? "Speaker"}
-                          fill
-                          className="object-cover opacity-70 transition-opacity group-hover:opacity-100"
-                          sizes="64px"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0d1a]/50" />
+                        {brandVisual ? (
+                          <div className={`flex h-full w-full items-center justify-center border-r border-[#111827]/50 ${brandVisual.className}`}>
+                            <Image
+                              src={brandVisual.src}
+                              alt={brandVisual.alt}
+                              width={32}
+                              height={32}
+                              className="h-8 w-8 object-contain drop-shadow-[0_3px_8px_rgba(0,0,0,0.4)]"
+                            />
+                          </div>
+                        ) : (
+                          <Image
+                            src={profilePic!}
+                            alt={event.speakers[0]?.name ?? "Speaker"}
+                            fill
+                            className="object-cover opacity-70 transition-opacity group-hover:opacity-100"
+                            sizes="64px"
+                          />
+                        )}
+                        {!brandVisual && (
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a0d1a]/50" />
+                        )}
                       </div>
                     )}
 

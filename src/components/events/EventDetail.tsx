@@ -27,6 +27,7 @@ import {
 } from "@/lib/utils";
 import { EVENT_TYPE_LABELS } from "@/lib/constants";
 import { EVENT_TYPE_ICONS, EVENT_TYPE_COLORS } from "@/lib/eventTypeConfig";
+import { getEventBrandVisual } from "@/lib/brandVisuals";
 import type { TEvent, TEventType } from "@/lib/types";
 
 const TYPE_BG: Record<TEventType, string> = {
@@ -84,6 +85,8 @@ export function EventDetail({ eventId }: { eventId: number }) {
 
   const Icon = EVENT_TYPE_ICONS[event.event_type];
   const iconColor = EVENT_TYPE_COLORS[event.event_type];
+  // Match card behavior so detail pages stay visually consistent with list/schedule views.
+  const brandVisual = getEventBrandVisual(event);
   const borderColor = TYPE_BORDER_COLORS[event.event_type];
   const eventUrl = isAuthenticated ? event.private_url : event.public_url;
   const hasUrl = eventUrl && eventUrl.length > 0;
@@ -110,7 +113,19 @@ export function EventDetail({ eventId }: { eventId: number }) {
         <div className="flex flex-col sm:flex-row">
           {/* Large portrait */}
           <div className="relative aspect-square w-full flex-shrink-0 sm:aspect-[3/4] sm:w-56 md:w-64 lg:w-72">
-            {event.speakers[0]?.profile_pic ? (
+            {brandVisual ? (
+              <div className="flex h-full w-full items-center justify-center bg-[#05060f]">
+                <div className={`flex h-40 w-40 items-center justify-center rounded-3xl border p-7 shadow-[0_20px_80px_rgba(0,0,0,0.45)] md:h-44 md:w-44 md:p-8 ${brandVisual.className}`}>
+                  <Image
+                    src={brandVisual.src}
+                    alt={brandVisual.alt}
+                    width={132}
+                    height={132}
+                    className="h-full w-full object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.45)]"
+                  />
+                </div>
+              </div>
+            ) : event.speakers[0]?.profile_pic ? (
               <>
                 <Image
                   src={event.speakers[0].profile_pic}
