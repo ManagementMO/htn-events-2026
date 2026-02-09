@@ -1,4 +1,4 @@
-# 🎟️ HTN Events — Hack the North 2026 Frontend Challenge (Scroll to 'Part 2' for Writeup)
+# 🎟️ Hack the North 2026 Frontend Challenge (Scroll to 'Part 2' for Writeup)
 <p align="center">
   <img src="./htn-banner.png" alt="Hack the North 2026 — Event Explorer" width="100%" />
 </p>
