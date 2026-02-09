@@ -1,4 +1,4 @@
-# 🎟️ HTN Events — Hack the North 2026 Frontend Challenge
+# 🎟️ HTN Events — Hack the North 2026 Frontend Challenge (Scroll to 'Part 2' for Writeup)
 
 A cinematic, planning-friendly event browser built for the pace of a hackathon weekend — fast to browse, easy to schedule, and resilient to messy real-world data.
 
