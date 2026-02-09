@@ -1,5 +1,7 @@
-# 🎟️ HTN Events — Hack the North 2026 Frontend Challenge (Scroll to 'Part 2' for Writeup)
-
+# 🎟️ Hack the North 2026 Frontend Challenge (Scroll to 'Part 2' for Writeup)
+<p align="center">
+  <img src="./htn-banner.png" alt="Hack the North 2026 — Event Explorer" width="100%" />
+</p>
 A cinematic, planning-friendly event browser built for the pace of a hackathon weekend — fast to browse, easy to schedule, and resilient to messy real-world data.
 
 Built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, **Tailwind CSS v4**, **TanStack Query v5**, and **Framer Motion**.
