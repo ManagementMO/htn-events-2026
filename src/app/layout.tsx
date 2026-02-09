@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { QueryProvider } from "@/context/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import { MotionProvider } from "@/context/MotionProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
@@ -30,9 +31,11 @@ export default function RootLayout({
         </a>
         <QueryProvider>
           <AuthProvider>
-            <Navbar />
-            <div className="flex-1">{children}</div>
-            <Footer />
+            <MotionProvider>
+              <Navbar />
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </MotionProvider>
           </AuthProvider>
         </QueryProvider>
       </body>

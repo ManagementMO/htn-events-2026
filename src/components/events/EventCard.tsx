@@ -3,33 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Wrench, Mic2, Sparkles, Calendar, Clock } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import { formatEventDate, getEventDuration, formatDuration } from "@/lib/utils";
 import { EVENT_TYPE_LABELS } from "@/lib/constants";
-import type { TEvent, TEventType } from "@/lib/types";
-
-const TYPE_ICONS: Record<TEventType, typeof Wrench> = {
-  workshop: Wrench,
-  tech_talk: Mic2,
-  activity: Sparkles,
-};
-
-const TYPE_COLORS: Record<TEventType, string> = {
-  workshop: "text-amber-400",
-  tech_talk: "text-cyan-400",
-  activity: "text-violet-400",
-};
-
-const TYPE_BG_COLORS: Record<TEventType, string> = {
-  workshop: "from-amber-900/30 to-transparent",
-  tech_talk: "from-cyan-900/30 to-transparent",
-  activity: "from-violet-900/30 to-transparent",
-};
+import { EVENT_TYPE_ICONS, EVENT_TYPE_COLORS, EVENT_TYPE_BG_COLORS } from "@/lib/eventTypeConfig";
+import type { TEvent } from "@/lib/types";
 
 /** Endgame-style poster card — greyscale by default, colorizes on hover. */
 export function EventCard({ event, index = 0 }: { event: TEvent; index?: number }) {
-  const Icon = TYPE_ICONS[event.event_type];
-  const iconColor = TYPE_COLORS[event.event_type];
+  const Icon = EVENT_TYPE_ICONS[event.event_type];
+  const iconColor = EVENT_TYPE_COLORS[event.event_type];
   const profilePic = event.speakers[0]?.profile_pic;
   const speakerName = event.speakers[0]?.name;
   const duration = getEventDuration(event.start_time, event.end_time);
@@ -62,7 +45,7 @@ export function EventCard({ event, index = 0 }: { event: TEvent; index?: number 
             </>
           ) : speakerName ? (
             <div className="flex h-full w-full items-center justify-center bg-[#0a0d1a]">
-              <div className={`absolute inset-0 bg-gradient-to-b ${TYPE_BG_COLORS[event.event_type]} opacity-0 transition-opacity duration-700 group-hover:opacity-100`} />
+              <div className={`absolute inset-0 bg-gradient-to-b ${EVENT_TYPE_BG_COLORS[event.event_type]} opacity-0 transition-opacity duration-700 group-hover:opacity-100`} />
               <span className={`relative text-7xl font-bold uppercase ${iconColor} opacity-20 grayscale transition-all duration-700 group-hover:opacity-60 group-hover:grayscale-0 sm:text-8xl`}>
                 {speakerName.charAt(0)}
               </span>
@@ -70,7 +53,7 @@ export function EventCard({ event, index = 0 }: { event: TEvent; index?: number 
             </div>
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-[#0a0d1a]">
-              <div className={`absolute inset-0 bg-gradient-to-b ${TYPE_BG_COLORS[event.event_type]} opacity-0 transition-opacity duration-700 group-hover:opacity-100`} />
+              <div className={`absolute inset-0 bg-gradient-to-b ${EVENT_TYPE_BG_COLORS[event.event_type]} opacity-0 transition-opacity duration-700 group-hover:opacity-100`} />
               <Icon
                 className={`relative h-24 w-24 sm:h-28 sm:w-28 ${iconColor} opacity-15 grayscale transition-all duration-700 group-hover:opacity-50 group-hover:grayscale-0`}
                 strokeWidth={0.8}
@@ -106,7 +89,7 @@ export function EventCard({ event, index = 0 }: { event: TEvent; index?: number 
             </h3>
             <div className="flex items-center gap-1.5 text-[11px] text-slate-500 transition-colors duration-500 group-hover:text-slate-300">
               <Calendar className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
-              <time>{formatEventDate(event.start_time, event.end_time)}</time>
+              <time dateTime={new Date(event.start_time).toISOString()}>{formatEventDate(event.start_time, event.end_time)}</time>
             </div>
           </div>
         </div>

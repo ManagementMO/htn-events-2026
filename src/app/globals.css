@@ -318,28 +318,18 @@ html {
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .endgame-card,
-  .endgame-card::before,
-  .endgame-card::after,
-  .endgame-icon,
-  .endgame-icon::before {
-    transition: none !important;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 
   .endgame-card:hover,
   .endgame-card:focus-within {
     transform: none;
-  }
-
-  .hero-gradient {
-    animation: none;
-  }
-
-  .glow-pulse {
-    animation: none;
-  }
-
-  .skeleton-streak::after {
-    animation: none;
   }
 }

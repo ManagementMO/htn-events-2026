@@ -3,23 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Wrench, Mic2, Sparkles, Clock, Users } from "lucide-react";
+import { Clock, Users } from "lucide-react";
 import { format } from "date-fns";
 import { groupEventsByDay, getEventDuration, formatDuration } from "@/lib/utils";
 import { EVENT_TYPE_LABELS } from "@/lib/constants";
+import { EVENT_TYPE_ICONS, EVENT_TYPE_COLORS } from "@/lib/eventTypeConfig";
 import type { TEvent, TEventType } from "@/lib/types";
-
-const TYPE_ICONS: Record<TEventType, typeof Wrench> = {
-  workshop: Wrench,
-  tech_talk: Mic2,
-  activity: Sparkles,
-};
-
-const TYPE_COLORS: Record<TEventType, string> = {
-  workshop: "text-amber-400",
-  tech_talk: "text-cyan-400",
-  activity: "text-violet-400",
-};
 
 const TYPE_BORDER_COLORS: Record<TEventType, string> = {
   workshop: "border-l-amber-500/40",
@@ -56,7 +45,7 @@ export function ScheduleView({ events }: { events: TEvent[] }) {
             {dayEvents
               .sort((a, b) => a.start_time - b.start_time)
               .map((event) => {
-                const Icon = TYPE_ICONS[event.event_type];
+                const Icon = EVENT_TYPE_ICONS[event.event_type];
                 const duration = getEventDuration(event.start_time, event.end_time);
                 const profilePic = event.speakers[0]?.profile_pic;
 
@@ -67,14 +56,17 @@ export function ScheduleView({ events }: { events: TEvent[] }) {
                     className={`group flex items-stretch gap-0 rounded-xl border border-[#111827] border-l-2 ${TYPE_BORDER_COLORS[event.event_type]} bg-[#0a0d1a] transition-all hover:bg-[#0f1428] hover:border-[#1e293b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500`}
                   >
                     {/* Time column */}
-                    <div className="flex w-24 flex-shrink-0 flex-col items-center justify-center border-r border-[#111827]/50 px-3 py-4 text-center">
+                    <time
+                      dateTime={new Date(event.start_time).toISOString()}
+                      className="flex w-24 flex-shrink-0 flex-col items-center justify-center border-r border-[#111827]/50 px-3 py-4 text-center"
+                    >
                       <span className="text-sm font-bold text-slate-200">
                         {format(new Date(event.start_time), "h:mm")}
                       </span>
                       <span className="text-[10px] uppercase text-slate-500">
                         {format(new Date(event.start_time), "a")}
                       </span>
-                    </div>
+                    </time>
 
                     {/* Speaker thumbnail */}
                     {profilePic && (
@@ -93,7 +85,7 @@ export function ScheduleView({ events }: { events: TEvent[] }) {
                     {/* Content */}
                     <div className="flex flex-1 items-center gap-4 px-4 py-4">
                       <Icon
-                        className={`hidden h-5 w-5 flex-shrink-0 sm:block ${TYPE_COLORS[event.event_type]} opacity-50`}
+                        className={`hidden h-5 w-5 flex-shrink-0 sm:block ${EVENT_TYPE_COLORS[event.event_type]} opacity-50`}
                         strokeWidth={1.5}
                         aria-hidden="true"
                       />
@@ -102,7 +94,7 @@ export function ScheduleView({ events }: { events: TEvent[] }) {
                           {event.name}
                         </p>
                         <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-500">
-                          <span className={`font-medium uppercase tracking-wider ${TYPE_COLORS[event.event_type]}`}>
+                          <span className={`font-medium uppercase tracking-wider ${EVENT_TYPE_COLORS[event.event_type]}`}>
                             {EVENT_TYPE_LABELS[event.event_type]}
                           </span>
                           <span className="flex items-center gap-1">

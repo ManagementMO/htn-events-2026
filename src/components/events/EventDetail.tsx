@@ -10,9 +10,6 @@ import {
   User,
   ExternalLink,
   Link2,
-  Wrench,
-  Mic2,
-  Sparkles,
   Clock,
   Lock,
   Globe,
@@ -29,19 +26,8 @@ import {
   getYouTubeEmbedUrl,
 } from "@/lib/utils";
 import { EVENT_TYPE_LABELS } from "@/lib/constants";
+import { EVENT_TYPE_ICONS, EVENT_TYPE_COLORS } from "@/lib/eventTypeConfig";
 import type { TEvent, TEventType } from "@/lib/types";
-
-const TYPE_ICONS: Record<TEventType, typeof Wrench> = {
-  workshop: Wrench,
-  tech_talk: Mic2,
-  activity: Sparkles,
-};
-
-const TYPE_COLORS: Record<TEventType, string> = {
-  workshop: "text-amber-400",
-  tech_talk: "text-cyan-400",
-  activity: "text-violet-400",
-};
 
 const TYPE_BG: Record<TEventType, string> = {
   workshop: "bg-amber-400/10 text-amber-400 border-amber-500/20",
@@ -96,8 +82,8 @@ export function EventDetail({ eventId }: { eventId: number }) {
     );
   }
 
-  const Icon = TYPE_ICONS[event.event_type];
-  const iconColor = TYPE_COLORS[event.event_type];
+  const Icon = EVENT_TYPE_ICONS[event.event_type];
+  const iconColor = EVENT_TYPE_COLORS[event.event_type];
   const borderColor = TYPE_BORDER_COLORS[event.event_type];
   const eventUrl = isAuthenticated ? event.private_url : event.public_url;
   const hasUrl = eventUrl && eventUrl.length > 0;
@@ -185,7 +171,7 @@ export function EventDetail({ eventId }: { eventId: number }) {
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-500">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
-                <time>{formatEventDate(event.start_time, event.end_time)}</time>
+                <time dateTime={new Date(event.start_time).toISOString()}>{formatEventDate(event.start_time, event.end_time)}</time>
               </div>
               {event.speakers.length > 0 && (
                 <div className="flex items-center gap-2">
@@ -295,7 +281,7 @@ export function EventDetail({ eventId }: { eventId: number }) {
                 icon={Icon}
                 label="Type"
                 value={EVENT_TYPE_LABELS[event.event_type] ?? event.event_type}
-                valueColor={TYPE_COLORS[event.event_type]}
+                valueColor={EVENT_TYPE_COLORS[event.event_type]}
               />
               <DetailRow
                 icon={event.permission === "public" ? Globe : Lock}

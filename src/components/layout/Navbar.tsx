@@ -64,6 +64,7 @@ export function Navbar() {
             <Link
               href="/login"
               className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-xs font-medium uppercase tracking-[0.1em] text-violet-300 transition-all hover:bg-violet-500/20 hover:border-violet-500/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060f]"
+              aria-label="Log in"
             >
               <LogIn className="h-3.5 w-3.5" aria-hidden="true" />
               <span className="hidden sm:inline">Log in</span>
