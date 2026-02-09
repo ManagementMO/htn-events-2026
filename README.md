@@ -313,6 +313,3 @@ This project is my attempt to reflect those values in both the product experienc
            │ /events · /events/:id│
            └─────────────────────┘
 ```
-
-```
-```
