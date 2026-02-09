@@ -1,5 +1,6 @@
 export const API_BASE_URL = "https://api.hackthenorth.com/v3";
 
+// Intentionally hardcoded — demo-only credentials per the HTN challenge spec
 export const AUTH_CREDENTIALS = {
   username: "hacker",
   password: "htn2026",
@@ -13,8 +14,6 @@ export const EVENT_TYPE_LABELS: Record<string, string> = {
 
 export const STORAGE_KEYS = {
   AUTH: "htn_auth",
-  SORT_PREFERENCE: "htn_sort_pref",
-  VIEW_MODE: "htn_view_mode",
 } as const;
 
 export const SORT_OPTIONS = [

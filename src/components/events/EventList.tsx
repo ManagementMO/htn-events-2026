@@ -184,7 +184,7 @@ export function EventList() {
               <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-slate-400">
                 No Events Found
               </h2>
-              <p className="mt-1 text-xs text-slate-600">
+              <p className="mt-1 text-xs text-slate-500">
                 {debouncedSearch
                   ? `No events match "${debouncedSearch}".`
                   : "No events match the current filters."}

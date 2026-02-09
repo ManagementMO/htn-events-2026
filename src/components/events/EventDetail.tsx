@@ -330,7 +330,7 @@ export function EventDetail({ eventId }: { eventId: number }) {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-500">
                 No related events available.
               </p>
             )}
@@ -354,9 +354,9 @@ function DetailRow({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <Icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-slate-600" aria-hidden="true" />
+      <Icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-slate-500" aria-hidden="true" />
       <div className="min-w-0">
-        <p className="text-[10px] uppercase tracking-[0.15em] text-slate-600">{label}</p>
+        <p className="text-[10px] uppercase tracking-[0.15em] text-slate-500">{label}</p>
         <p className={`text-sm ${valueColor ?? "text-slate-300"}`}>{value}</p>
       </div>
     </div>

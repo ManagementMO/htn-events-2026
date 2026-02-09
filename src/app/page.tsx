@@ -38,7 +38,7 @@ export default function HomePage() {
         <EventStats />
 
         {/* Event Grid / Schedule */}
-        <Suspense>
+        <Suspense fallback={<div className="text-center text-sm text-slate-500 py-12">Loading events...</div>}>
           <EventList />
         </Suspense>
       </main>

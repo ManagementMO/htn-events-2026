@@ -79,7 +79,7 @@ export function EventStats() {
       techTalks: techTalks.length,
       activities: activities.length,
       totalDuration: formatDuration(totalMinutes),
-      avgDuration: formatDuration(Math.round(totalMinutes / visible.length)),
+      avgDuration: formatDuration(visible.length > 0 ? Math.round(totalMinutes / visible.length) : 0),
       speakers: speakers.size,
       withRecording: withRecording.length,
       publicCount,

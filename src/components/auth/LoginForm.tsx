@@ -61,6 +61,19 @@ export function LoginForm() {
             <h1 className="mt-2 text-2xl font-bold uppercase tracking-[0.1em] text-slate-100">
               Sign In
             </h1>
+            <p className="mt-3 text-xs text-slate-500">
+              Sign in to unlock all events including private hacker-only sessions.
+            </p>
+          </div>
+
+          {/* Demo credential hint */}
+          <div className="mb-6 rounded-xl border border-cyan-500/15 bg-cyan-500/5 px-4 py-3 text-center">
+            <p className="text-[10px] uppercase tracking-[0.15em] text-cyan-500/70 mb-1">
+              Demo Credentials
+            </p>
+            <p className="text-sm text-cyan-300/80 font-mono">
+              hacker <span className="text-slate-600 mx-1">/</span> htn2026
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -83,6 +96,7 @@ export function LoginForm() {
                   placeholder="Enter your username"
                   className="w-full rounded-xl border border-[#111827] bg-[#05060f] px-4 py-3.5 text-sm text-slate-100 placeholder:text-slate-600 transition-all focus:border-violet-500/30 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
                   aria-describedby={error ? "login-error" : undefined}
+                  aria-invalid={error ? true : undefined}
                 />
               </div>
 
@@ -102,6 +116,8 @@ export function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   className="w-full rounded-xl border border-[#111827] bg-[#05060f] px-4 py-3.5 text-sm text-slate-100 placeholder:text-slate-600 transition-all focus:border-violet-500/30 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
+                  aria-describedby={error ? "login-error" : undefined}
+                  aria-invalid={error ? true : undefined}
                 />
               </div>
             </div>
