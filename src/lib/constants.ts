@@ -14,4 +14,12 @@ export const EVENT_TYPE_LABELS: Record<string, string> = {
 export const STORAGE_KEYS = {
   AUTH: "htn_auth",
   SORT_PREFERENCE: "htn_sort_pref",
+  VIEW_MODE: "htn_view_mode",
 } as const;
+
+export const SORT_OPTIONS = [
+  { value: "date", label: "Date" },
+  { value: "name", label: "Name" },
+  { value: "duration", label: "Duration" },
+  { value: "type", label: "Type" },
+] as const;

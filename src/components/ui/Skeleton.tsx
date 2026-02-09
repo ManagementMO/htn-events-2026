@@ -6,30 +6,27 @@ interface SkeletonProps {
   className?: string;
 }
 
+/** Base skeleton element. */
 export function Skeleton({ className }: SkeletonProps) {
   return (
-    <div className={clsx("animate-pulse bg-[#1c2238] rounded-lg", className)} />
+    <div className={clsx("animate-pulse rounded-lg bg-[#111827]", className)} />
   );
 }
 
+/** Endgame portrait card skeleton with streak shimmer. */
 export function SkeletonCard() {
   return (
-    <div className="bg-[#141929] border border-[#1e293b] rounded-xl overflow-hidden">
-      <div className="p-5 space-y-4">
-        {/* Badge */}
-        <Skeleton className="h-3 w-20" />
-        {/* Title */}
-        <Skeleton className="h-5 w-3/4" />
-        {/* Date */}
-        <Skeleton className="h-4 w-1/2" />
-        {/* Description lines */}
-        <div className="space-y-2">
-          <Skeleton className="h-3 w-full" />
-          <Skeleton className="h-3 w-5/6" />
-          <Skeleton className="h-3 w-2/3" />
+    <div className="skeleton-streak aspect-[3/4] rounded-2xl border border-[#111827] bg-[#0a0d1a]">
+      <div className="flex h-full flex-col justify-between p-5">
+        <Skeleton className="h-3 w-16" />
+        <div className="flex flex-1 items-center justify-center">
+          <Skeleton className="h-20 w-20 rounded-2xl" />
         </div>
-        {/* Speaker */}
-        <Skeleton className="h-3 w-1/3" />
+        <div className="space-y-2">
+          <Skeleton className="h-3 w-2/3" />
+          <Skeleton className="h-3 w-1/2" />
+          <Skeleton className="h-2.5 w-1/3" />
+        </div>
       </div>
     </div>
   );

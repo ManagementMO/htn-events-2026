@@ -1,25 +1,42 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: var(--color-bg-primary);
-  --color-foreground: var(--color-text-primary);
+  --color-background: var(--bg-void);
+  --color-foreground: var(--text-primary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  --color-bg-primary: #0a0e1a;
-  --color-bg-secondary: #0f1424;
-  --color-bg-card: #141929;
-  --color-bg-card-hover: #1c2238;
-  --color-accent-blue: #3b82f6;
-  --color-accent-cyan: #22d3ee;
-  --color-accent-amber: #f59e0b;
-  --color-accent-violet: #a78bfa;
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-border: #1e293b;
-  --color-border-hover: #2a3454;
+  /* Backgrounds — the Endgame darkness */
+  --bg-void: #05060f;
+  --bg-card: #0a0d1a;
+  --bg-card-hover: #0f1428;
+  --bg-surface: #111827;
+
+  /* HTN Blues */
+  --htn-blue: #3b82f6;
+  --htn-cyan: #22d3ee;
+  --htn-teal: #06b6d4;
+
+  /* Endgame Purple Streak */
+  --endgame-purple: #7c3aed;
+  --endgame-violet: #8b5cf6;
+  --endgame-blue: #3b82f6;
+
+  /* Event Type Accents */
+  --type-workshop: #f59e0b;
+  --type-tech-talk: #22d3ee;
+  --type-activity: #a78bfa;
+
+  /* Text */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+
+  /* Borders */
+  --border-subtle: #111827;
+  --border-hover: #1e293b;
 }
 
 * {
@@ -27,21 +44,21 @@
 }
 
 body {
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
+  background: var(--bg-void);
+  color: var(--text-primary);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   min-height: 100vh;
 }
 
-/* Skip to content link */
+/* Skip to content */
 .skip-to-content {
   position: absolute;
   left: -9999px;
   top: 0;
   z-index: 100;
   padding: 0.75rem 1.5rem;
-  background: var(--color-accent-blue);
+  background: var(--htn-blue);
   color: white;
   font-weight: 600;
   border-radius: 0 0 0.5rem 0;
@@ -52,37 +69,277 @@ body {
   left: 0;
 }
 
-/* Focus visible styles */
+/* Focus visible */
 :focus-visible {
-  outline: 2px solid var(--color-accent-blue);
+  outline: 2px solid var(--endgame-violet);
   outline-offset: 2px;
 }
 
-/* Custom scrollbar */
+/* ═══════════════════════════════════════
+   THE ENDGAME CARD — Signature Streak
+   ═══════════════════════════════════════ */
+
+.endgame-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Subtle bottom-edge accent line (barely visible, just a hint) */
+.endgame-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.15) 30%,
+    rgba(59, 130, 246, 0.15) 70%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* No diffused glow at rest */
+.endgame-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: transparent;
+  z-index: 1;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* HOVER: The character steps out of darkness */
+.endgame-card:hover,
+.endgame-card:focus-within {
+  transform: translateY(-8px) scale(1.02);
+  background: var(--bg-card-hover);
+}
+
+.endgame-card:hover::before,
+.endgame-card:focus-within::before {
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.35) 30%,
+    rgba(59, 130, 246, 0.35) 70%,
+    transparent 100%
+  );
+}
+
+.endgame-card:hover::after,
+.endgame-card:focus-within::after {
+  height: 8px;
+  bottom: -2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.1) 30%,
+    rgba(59, 130, 246, 0.1) 70%,
+    transparent 100%
+  );
+  filter: blur(6px);
+}
+
+/* Event type border glow on hover */
+.endgame-card--workshop:hover,
+.endgame-card--workshop:focus-within {
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 8px 40px rgba(245, 158, 11, 0.1), 0 0 60px rgba(245, 158, 11, 0.05);
+}
+
+.endgame-card--tech_talk:hover,
+.endgame-card--tech_talk:focus-within {
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 8px 40px rgba(34, 211, 238, 0.1), 0 0 60px rgba(34, 211, 238, 0.05);
+}
+
+.endgame-card--activity:hover,
+.endgame-card--activity:focus-within {
+  border-color: rgba(167, 139, 250, 0.3);
+  box-shadow: 0 8px 40px rgba(167, 139, 250, 0.1), 0 0 60px rgba(167, 139, 250, 0.05);
+}
+
+/* Icon dramatic lighting */
+.endgame-icon {
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.endgame-icon::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.endgame-card:hover .endgame-icon::before,
+.endgame-card:focus-within .endgame-icon::before {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
+  inset: -30px;
+}
+
+/* Workshop icon hover glow */
+.endgame-card--workshop:hover .endgame-icon::before {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+}
+
+.endgame-card--tech_talk:hover .endgame-icon::before {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.2) 0%, transparent 70%);
+}
+
+.endgame-card--activity:hover .endgame-icon::before {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.2) 0%, transparent 70%);
+}
+
+/* Hero animated gradient */
+@keyframes nebula {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    #05060f 0%,
+    #0a0d1a 20%,
+    #10072a 40%,
+    #0a0d1a 60%,
+    #05101a 80%,
+    #05060f 100%
+  );
+  background-size: 400% 400%;
+  animation: nebula 20s ease infinite;
+}
+
+/* Hero streak through title */
+.hero-streak {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-streak::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -20%;
+  right: -20%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.2) 20%,
+    rgba(139, 92, 246, 0.35) 40%,
+    rgba(59, 130, 246, 0.35) 60%,
+    rgba(124, 58, 237, 0.15) 80%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+
+/* Skeleton streak shimmer */
+@keyframes streakShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.skeleton-streak {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-streak::after {
+  content: '';
+  position: absolute;
+  top: 38%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.3) 50%,
+    transparent 100%
+  );
+  animation: streakShimmer 2s ease-in-out infinite;
+}
+
+/* Login button pulse */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(139, 92, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.1); }
+}
+
+.glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-primary);
+  background: var(--bg-void);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
+  background: #1e293b;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border-hover);
+  background: #334155;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Selection color */
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: var(--color-text-primary);
+  background: rgba(139, 92, 246, 0.3);
+  color: var(--text-primary);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .endgame-card,
+  .endgame-card::before,
+  .endgame-card::after,
+  .endgame-icon,
+  .endgame-icon::before {
+    transition: none !important;
+  }
+
+  .endgame-card:hover,
+  .endgame-card:focus-within {
+    transform: none;
+  }
+
+  .hero-gradient {
+    animation: none;
+  }
+
+  .glow-pulse {
+    animation: none;
+  }
+
+  .skeleton-streak::after {
+    animation: none;
+  }
 }

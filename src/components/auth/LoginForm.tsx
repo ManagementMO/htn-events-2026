@@ -3,10 +3,10 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { LogIn, AlertCircle, Loader2 } from "lucide-react";
+import { LogIn, AlertCircle, Loader2, Shield } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
-/** Login form with validation and error handling. */
+/** Endgame-styled login form with dramatic dark aesthetic. */
 export function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
@@ -26,7 +26,6 @@ export function LoginForm() {
     }
 
     setIsSubmitting(true);
-    // Simulate a brief network delay for UX polish
     await new Promise((resolve) => setTimeout(resolve, 400));
 
     const success = login(username, password);
@@ -41,96 +40,104 @@ export function LoginForm() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="w-full max-w-md"
     >
-      <div className="rounded-2xl border border-[#1e293b] bg-[#141929] p-8 shadow-xl shadow-black/20">
-        <div className="mb-6 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/15">
-            <LogIn className="h-6 w-6 text-blue-400" aria-hidden="true" />
-          </div>
-          <h1 className="text-2xl font-bold text-slate-100">Welcome back</h1>
-          <p className="mt-1 text-sm text-slate-400">
-            Sign in to access all events
-          </p>
-        </div>
+      <div className="relative overflow-hidden rounded-2xl border border-[#111827] bg-[#0a0d1a] p-8 shadow-2xl shadow-black/40">
+        {/* Streak effect on the card */}
+        <div className="absolute top-[30%] left-[-10%] right-[-10%] h-[2px] bg-gradient-to-r from-transparent via-violet-500/40 to-transparent blur-[0.5px] pointer-events-none" />
+        <div className="absolute top-[28%] left-0 right-0 h-6 bg-gradient-to-r from-transparent via-violet-500/10 to-transparent blur-[12px] pointer-events-none" />
 
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="username"
-                className="mb-1.5 block text-sm font-medium text-slate-300"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                type="text"
-                autoComplete="username"
-                autoFocus
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter your username"
-                className="w-full rounded-lg border border-[#1e293b] bg-[#0a0e1a] px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-                aria-describedby={error ? "login-error" : undefined}
-              />
+        <div className="relative z-10">
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-violet-500/20 bg-violet-500/5">
+              <Shield className="h-8 w-8 text-violet-400 opacity-70" aria-hidden="true" />
             </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="mb-1.5 block text-sm font-medium text-slate-300"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                className="w-full rounded-lg border border-[#1e293b] bg-[#0a0e1a] px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-slate-500">
+              Hacker Access
+            </p>
+            <h1 className="mt-2 text-2xl font-bold uppercase tracking-[0.1em] text-slate-100">
+              Sign In
+            </h1>
           </div>
 
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              id="login-error"
-              role="alert"
-              className="mt-4 flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2.5 text-sm text-red-400"
-            >
-              <AlertCircle className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
-              {error}
-            </motion.div>
-          )}
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="space-y-5">
+              <div>
+                <label
+                  htmlFor="username"
+                  className="mb-2 block text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500"
+                >
+                  Username
+                </label>
+                <input
+                  id="username"
+                  type="text"
+                  autoComplete="username"
+                  autoFocus
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter your username"
+                  className="w-full rounded-xl border border-[#111827] bg-[#05060f] px-4 py-3.5 text-sm text-slate-100 placeholder:text-slate-600 transition-all focus:border-violet-500/30 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
+                  aria-describedby={error ? "login-error" : undefined}
+                />
+              </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#141929] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                Signing in...
-              </>
-            ) : (
-              <>
-                <LogIn className="h-4 w-4" aria-hidden="true" />
-                Sign in
-              </>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="mb-2 block text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500"
+                >
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="w-full rounded-xl border border-[#111827] bg-[#05060f] px-4 py-3.5 text-sm text-slate-100 placeholder:text-slate-600 transition-all focus:border-violet-500/30 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
+                />
+              </div>
+            </div>
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                id="login-error"
+                role="alert"
+                className="mt-5 flex items-center gap-2 rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.05)]"
+              >
+                <AlertCircle className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                {error}
+              </motion.div>
             )}
-          </button>
-        </form>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="glow-pulse mt-7 flex w-full items-center justify-center gap-2 rounded-xl border border-violet-500/30 bg-gradient-to-r from-violet-600 to-blue-600 px-4 py-3.5 text-sm font-bold uppercase tracking-[0.15em] text-white transition-all hover:from-violet-500 hover:to-blue-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0d1a] disabled:cursor-not-allowed disabled:opacity-50 disabled:animate-none"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  Authenticating...
+                </>
+              ) : (
+                <>
+                  <LogIn className="h-4 w-4" aria-hidden="true" />
+                  Access Events
+                </>
+              )}
+            </button>
+          </form>
+        </div>
       </div>
     </motion.div>
   );

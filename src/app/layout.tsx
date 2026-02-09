@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geistSans.variable}>
-      <body className="flex min-h-screen flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] antialiased">
+      <body className="flex min-h-screen flex-col bg-[#05060f] text-slate-100 antialiased">
         <a href="#main-content" className="skip-to-content">
           Skip to main content
         </a>

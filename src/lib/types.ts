@@ -1,8 +1,11 @@
 export type TEventType = "workshop" | "activity" | "tech_talk";
 export type TPermission = "public" | "private";
+export type TSortOption = "date" | "name" | "duration" | "type";
+export type TViewMode = "grid" | "schedule";
 
 export type TSpeaker = {
   name: string;
+  profile_pic?: string;
 };
 
 export type TEvent = {

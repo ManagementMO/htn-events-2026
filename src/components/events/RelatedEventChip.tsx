@@ -1,23 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { Badge } from "@/components/ui/Badge";
+import { Wrench, Mic2, Sparkles } from "lucide-react";
 import { EVENT_TYPE_LABELS } from "@/lib/constants";
-import type { TEvent } from "@/lib/types";
+import type { TEvent, TEventType } from "@/lib/types";
 
-/** A compact chip linking to a related event. */
+const TYPE_ICONS: Record<TEventType, typeof Wrench> = {
+  workshop: Wrench,
+  tech_talk: Mic2,
+  activity: Sparkles,
+};
+
+const TYPE_COLORS: Record<TEventType, string> = {
+  workshop: "text-amber-400/60 group-hover:text-amber-400",
+  tech_talk: "text-cyan-400/60 group-hover:text-cyan-400",
+  activity: "text-violet-400/60 group-hover:text-violet-400",
+};
+
+const TYPE_BORDERS: Record<TEventType, string> = {
+  workshop: "border-amber-500/10 hover:border-amber-500/25",
+  tech_talk: "border-cyan-500/10 hover:border-cyan-500/25",
+  activity: "border-violet-500/10 hover:border-violet-500/25",
+};
+
+/** Mini Endgame-style chip for related events. */
 export function RelatedEventChip({ event }: { event: TEvent }) {
+  const Icon = TYPE_ICONS[event.event_type];
+
   return (
     <Link
       href={`/events/${event.id}`}
-      className="group inline-flex items-center gap-2 rounded-lg border border-[#1e293b] bg-[#141929] px-3 py-2 transition-all hover:border-[#2a3454] hover:bg-[#1c2238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0e1a]"
+      className={`group flex items-center gap-3 rounded-xl border bg-[#0a0d1a] px-4 py-3 transition-all hover:bg-[#0f1428] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05060f] ${TYPE_BORDERS[event.event_type]}`}
     >
-      <Badge variant={event.event_type}>
-        {EVENT_TYPE_LABELS[event.event_type] ?? event.event_type}
-      </Badge>
-      <span className="text-sm font-medium text-slate-300 transition-colors group-hover:text-slate-100">
-        {event.name}
-      </span>
+      <Icon
+        className={`h-4 w-4 flex-shrink-0 transition-colors ${TYPE_COLORS[event.event_type]}`}
+        strokeWidth={1.5}
+        aria-hidden="true"
+      />
+      <div className="min-w-0 flex-1">
+        <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-slate-600">
+          {EVENT_TYPE_LABELS[event.event_type] ?? event.event_type}
+        </p>
+        <p className="truncate text-sm font-medium text-slate-400 transition-colors group-hover:text-slate-200">
+          {event.name}
+        </p>
+      </div>
     </Link>
   );
 }
